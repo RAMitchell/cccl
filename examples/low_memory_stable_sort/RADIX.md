@@ -7,6 +7,8 @@ the merge prototype.
 
 ## Results
 
+[One-page headline chart (PDF)](docs/radix_headline.pdf) · [PNG](docs/radix_headline.png)
+
 On an RTX PRO 6000 Blackwell, the prototype retains about **61% of Thrust's radix
 throughput on large random 32-bit key arrays**. At 1.07 billion keys it reduces scratch
 by **99.6%**, from **4.33 GB to 16.88 MB**, and accounted peak memory from **8.63 GB to

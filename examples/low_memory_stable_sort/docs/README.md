@@ -26,3 +26,16 @@ platform. Fonts are embedded in the PDF, including the mathematical symbols.
 
 Intermediate chart images go to `results/development/pdf`. Diagrams and charts are
 generated locally; cited papers are linked, not reproduced.
+
+## Radix headline
+
+The [one-page radix headline](radix_headline.pdf) uses the same cover design for the
+32-bit radix experiment. A [PNG copy](radix_headline.png) is available for slides and
+sharing. It is generated from the saved measurements in `results/radix/`.
+
+```bash
+python docs/make_radix_headline.py
+```
+
+This uses the same Python dependencies and Noto fonts as the guide. Poppler's
+`pdftoppm` command is also required to export the PNG. No GPU benchmarks are run.
