@@ -1,0 +1,38 @@
+{
+  "timestamp_utc": "2026-09-14T11:27:47.620055+00:00",
+  "cccl_base_commit": "903a383421d20d85271f29afc5431f3f1fc5f151",
+  "gpu": "index, name, driver_version\n0, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 580.173.02\n1, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, 580.173.02",
+  "compiler": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_May_27_02:21:03_PDT_2025\nCuda compilation tools, release 12.9, V12.9.86\nBuild cuda_12.9.r12.9/compiler.36037853_0",
+  "architecture": "sm_120",
+  "validation_command": "CUDA_ENV=/home/rorym/miniforge3/envs/xgboost ./run_validation.sh",
+  "smoke_commands": [
+    [
+      "./benchmark",
+      "16777216",
+      "0",
+      "0",
+      "random",
+      "3"
+    ],
+    [
+      "./benchmark-record16",
+      "16777216",
+      "0",
+      "0",
+      "random",
+      "3"
+    ],
+    [
+      "./benchmark-scalar",
+      "1048579",
+      "3"
+    ]
+  ],
+  "sources_sha256": {
+    "paged_stable_sort.cuh": "ab8b4bdaa37e8c835d53dcd62020105d096a770b3c0fd6743da1713cf5420971",
+    "benchmark.cu": "b118474faa3bf697270ab0661f6473965a0b68907fb6033ee3a1f040a2c47bab",
+    "benchmark_scalar.cu": "251b613170ce4e928c50c41b58f405c72a19a35d36a27e3059bd767eeb7614a5",
+    "correctness_extra.cu": "a448b7fc2e2e7c7d49e058024cb3f07e8491e715aa528280c4d699a2968fd675"
+  },
+  "note": "Current-main compatibility validation and small smoke runs. The full published performance study remains the historical CCCL 3.4.2 results in the parent directory."
+}

@@ -1,0 +1,2 @@
+n,distribution,record_bytes,page_items,workers,spare_pages,baseline_temp_bytes,candidate_temp_bytes,baseline_ms,candidate_ms,throughput_ratio
+16777216,random,16,2048,376,756,268501503,25026580,5.86282,6.27584,0.934188

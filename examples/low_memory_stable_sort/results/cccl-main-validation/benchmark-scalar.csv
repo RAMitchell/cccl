@@ -1,0 +1,2 @@
+thrust_version,n,page_items,workers,merge_temp_bytes,radix_temp_bytes,candidate_temp_bytes,merge_ms,radix_ms,candidate_ms,vs_merge,vs_radix
+300600,1048579,4096,257,4195839,4350591,8523860,0.089728,0.049056,0.211488,0.42427,0.231956

@@ -1,0 +1,29 @@
+{
+  "description": "Historical benchmark provenance and source mapping for the CCCL example import.",
+  "original_repository": "https://github.com/dmlc/xgboost",
+  "original_path": "demo/experimental/low_memory_sort",
+  "original_implementation_commit": "322ffcbeccc560d1040e846cf71af316058def09",
+  "original_documentation_commit": "350a8a837e0ec97b7b7189121c2d5d789627b350",
+  "original_commits_note": "Local experimental commits; these were not published to the original repository.",
+  "measured_cccl_commit": "d36012203ef73ac7f966e848dd88482273e91e02",
+  "import_base_cccl_commit": "903a383421d20d85271f29afc5431f3f1fc5f151",
+  "changes": [
+    "CCCL formatting and license banners; algorithm and tuning unchanged.",
+    "Portable toolchain and CCCL checkout discovery.",
+    "New runs default to results/development/current, preserving the historical study.",
+    "Documentation paths and source provenance updated for the CCCL example."
+  ],
+  "measured_sources_sha256": {
+    "paged_stable_sort.cuh": "53d2fbe89577d622af4421fe7b03b831b6a945197d336d0d2f8da981bb82061b",
+    "benchmark.cu": "c185de77a3708f32e653ef81029e2132011fe40cd5be11ac886d1fb69e713592",
+    "benchmark_scalar.cu": "d2feb8f76ff724629f79c5363e14e64cbb4c07f2f9f39d73af995c9e91ef170e",
+    "correctness_extra.cu": "68eb6a5061547a467c513efa5742161059026908757f58394d0d4e70530a437e"
+  },
+  "imported_sources_sha256": {
+    "paged_stable_sort.cuh": "ab8b4bdaa37e8c835d53dcd62020105d096a770b3c0fd6743da1713cf5420971",
+    "benchmark.cu": "b118474faa3bf697270ab0661f6473965a0b68907fb6033ee3a1f040a2c47bab",
+    "benchmark_scalar.cu": "251b613170ce4e928c50c41b58f405c72a19a35d36a27e3059bd767eeb7614a5",
+    "correctness_extra.cu": "a448b7fc2e2e7c7d49e058024cb3f07e8491e715aa528280c4d699a2968fd675"
+  },
+  "source_equivalence_check": "All four imported CUDA source files exactly match the measured sources after adding the SPDX banner and applying CCCL clang-format 22.1.5."
+}

@@ -1,0 +1,15 @@
+========= COMPUTE-SANITIZER
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, SMs=188, Thrust=300402
+n,distribution,record_bytes,page_items,workers,spare_pages,baseline_temp_bytes,candidate_temp_bytes,baseline_ms,candidate_ms,throughput_ratio
+262147,duplicates,8,4096,3,10,2098431,362484,31.1348,45.0527,0.691074
+========= ERROR SUMMARY: 0 errors
+========= COMPUTE-SANITIZER
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, SMs=188, Thrust=300402
+n,distribution,record_bytes,page_items,workers,spare_pages,baseline_temp_bytes,candidate_temp_bytes,baseline_ms,candidate_ms,throughput_ratio
+262147,duplicates,8,8192,3,13,2098431,918644,34.736,47.9285,0.724745
+========= ERROR SUMMARY: 0 errors
+========= COMPUTE-SANITIZER
+NVIDIA RTX PRO 6000 Blackwell Workstation Edition, SMs=188, Thrust=300402
+n,distribution,record_bytes,page_items,workers,spare_pages,baseline_temp_bytes,candidate_temp_bytes,baseline_ms,candidate_ms,throughput_ratio
+262147,duplicates,16,2048,3,10,4196095,364276,24.3245,86.23,0.282088
+========= ERROR SUMMARY: 0 errors
