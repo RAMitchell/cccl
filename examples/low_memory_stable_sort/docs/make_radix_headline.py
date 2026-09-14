@@ -46,7 +46,6 @@ def main():
     paged_peak = int(row["candidate_peak_bytes"])
     baseline_ms, paged_ms = float(row["baseline_ms"]), float(row["candidate_ms"])
     retained = baseline_ms / paged_ms * 100
-    saved = (1 - paged_scratch / baseline_scratch) * 100
     assert baseline_peak == input_bytes + baseline_scratch
     assert paged_peak == input_bytes + paged_scratch
     assert abs(retained - float(row["throughput_ratio"]) * 100) < 0.001
@@ -97,12 +96,12 @@ def main():
         p.drawOn(c, x, H - y - height)
 
     rect(0, 0, W, 363, INK)
-    label("GPU ALGORITHMS  /  RADIX EXPERIMENT", M, 43, 9, "Bold", "#9FD7D0")
-    label("Stable GPU radix sort", M, 99, 32, "SerifBold", WHITE)
-    label("with recycled pages", M, 147, 32, "SerifBold", WHITE)
+    label("GPU ALGORITHMS  /  EXPERIMENTAL STUDY", M, 43, 9, "Bold", "#9FD7D0")
+    label("Stable GPU radix sorting", M, 99, 34, "SerifBold", WHITE)
+    label("with recycled pages", M, 147, 34, "SerifBold", WHITE)
     para(
-        f"<b>{saved:.1f}% less temporary storage</b>, retaining {retained:.1f}% of Thrust's "
-        "radix-sort throughput. The stable result returns to the original array.",
+        "An experimental radix sort that keeps the result in the original array "
+        "and uses a small reusable workspace.",
         M,
         214,
         465,
@@ -110,11 +109,11 @@ def main():
         20,
         "#DCE9EE",
     )
-    rect(M, 311, 143, 22, TEAL, 11)
-    label("STABLE 32-BIT KEYS", M + 71.5, 316, 8, "Bold", WHITE, "center")
+    rect(M, 311, 132, 22, TEAL, 11)
+    label("STABILITY REQUIRED", M + 66, 316, 8, "Bold", WHITE, "center")
     label(
         measured.strftime("%d %B %Y").upper() + "  •  CCCL 3.6.0 CHECKOUT",
-        M + 157,
+        M + 148,
         317,
         8,
         "Sans",
@@ -133,9 +132,8 @@ def main():
         para(description, x + 13, 449, width - 26, 9, 12, MUTED)
 
     para(
-        f"<b>{n:,} random unsigned 32-bit keys</b> on one RTX PRO 6000 Blackwell. "
-        f"Thrust radix: <b>{baseline_ms:.2f} ms</b>; paged radix: <b>{paged_ms:.2f} ms</b>. "
-        "Stable ordering is checked separately using tagged records.",
+        f"Measured for <b>{n:,} random 32-bit keys</b> on one RTX PRO 6000 Blackwell. "
+        "The comparison is against the CCCL 3.6.0 checkout through Thrust's stable radix-sort path.",
         M,
         505,
         CW,
@@ -147,7 +145,7 @@ def main():
     available = CW - 88
     input_width = available * input_bytes / baseline_peak
     for y, name, scratch, color in [
-        (601, "Thrust radix", baseline_scratch, BLUE),
+        (601, "Thrust", baseline_scratch, BLUE),
         (654, "Paged radix", paged_scratch, TEAL),
     ]:
         scratch_width = available * scratch / baseline_peak
@@ -156,42 +154,13 @@ def main():
         rect(x + input_width, y - 2, scratch_width, 22, color)
         label(
             f"{(input_bytes + scratch) / 1e9:.2f} GB",
-            x + input_width + scratch_width,
+            x + available,
             y + 27,
             9,
             "Bold",
             color,
             "right",
         )
-        if name == "Thrust radix":
-            label(
-                f"{input_bytes / 1e9:.2f} GB input",
-                x + input_width / 2,
-                y + 4,
-                8.5,
-                "Bold",
-                INK,
-                "center",
-            )
-            label(
-                f"{scratch / 1e9:.2f} GB scratch",
-                x + input_width + scratch_width / 2,
-                y + 4,
-                8.5,
-                "Bold",
-                WHITE,
-                "center",
-            )
-        else:
-            label(
-                f"{scratch / 1e6:.2f} MB scratch",
-                x + input_width + 12,
-                y + 4,
-                8.5,
-                "Bold",
-                TEAL,
-            )
-
     for offset, color, text in [
         (0, INPUT, "input"),
         (63, TEAL, "scratch (paged)"),
@@ -200,8 +169,10 @@ def main():
         rect(M + offset, 715, 8, 8, color)
         label(text, M + offset + 14, 713, 8, "Sans", MUTED)
     para(
-        "Peak = input + measured scratch. CUDA runtime/context and benchmark copies are excluded. "
-        "Bars share a linear scale; the paged scratch allocation is the thin teal sliver.",
+        "Peak = input + measured scratch. CUDA runtime/context and benchmark-only copies are excluded. "
+        f"Bars use a common linear scale; the {paged_scratch / 1e6:.2f} MB paged workspace is a thin sliver "
+        f"beside the {input_bytes / 1e9:.2f} GB input. Timings use reused allocations; "
+        "input resets and allocation growth are excluded.",
         M,
         745,
         CW,
@@ -212,17 +183,9 @@ def main():
     label(
         f"CUDA 12.9  /  {env['timed_repeats']} TRIAL MEDIANS  /  {env['warmups_per_algorithm']} WARMUPS  /  REUSED ALLOCATIONS",
         M,
-        790,
-        7.3,
-        "Bold",
-        MUTED,
-    )
-    label(
-        "Final page permutation included; input resets and allocation growth excluded.",
-        M,
-        807,
+        803,
         7.5,
-        "Sans",
+        "Bold",
         MUTED,
     )
     c.showPage()
