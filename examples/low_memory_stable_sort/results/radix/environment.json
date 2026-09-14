@@ -1,0 +1,20 @@
+{
+  "timestamp_utc": "2026-09-14T12:59:36.766924+00:00",
+  "cuda_visible_devices": "1",
+  "gpu": "index, name, uuid, driver_version, memory.total [MiB]\n0, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-f5d6353e-7a43-7821-bdc4-9d44ad5801eb, 580.173.02, 97887 MiB\n1, NVIDIA RTX PRO 6000 Blackwell Workstation Edition, GPU-36deb881-6346-6e56-3184-2aabda2a4418, 580.173.02, 97887 MiB",
+  "compiler": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_May_27_02:21:03_PDT_2025\nCuda compilation tools, release 12.9, V12.9.86\nBuild cuda_12.9.r12.9/compiler.36037853_0",
+  "architecture": "sm_120",
+  "extra_compiler_flags": "",
+  "cccl_commit": "e5bb883661d5ececee9b546993e5ef467f4f99b3",
+  "warmups_per_algorithm": 5,
+  "timed_repeats": 9,
+  "summary": "median CUDA event milliseconds; alternating trial order; reset copies and allocation growth excluded",
+  "memory_accounting": "input array plus allocator high-water capacity; CUDA context and harness copies excluded",
+  "seed": 42,
+  "sources_sha256": {
+    "paged_radix_sort.cuh": "006353b593f3cb3622290c3d39f047adec7a9ace31c3dcb04af94a9173b00f09",
+    "paged_stable_sort.cuh": "ab8b4bdaa37e8c835d53dcd62020105d096a770b3c0fd6743da1713cf5420971",
+    "benchmark_radix.cu": "7686485fb29dd8eaccf8c57e87fd3f01f72b3724ed0d8bbc4338e80b0e56a376",
+    "build.sh": "256861e613caf07c655192c5a1b40a19690f8a082c86cf1d6d598457a9727b4c"
+  }
+}

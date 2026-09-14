@@ -12,6 +12,7 @@ peak memory includes the input and scratch, excluding CUDA context and benchmark
 - [Illustrated PDF](docs/paged_stable_sort_explained.pdf): an approachable explanation with a worked merge.
 - [Results](results/report.md): timings, scratch and peak memory, refinements, and slower cases.
 - [Algorithm details](DESIGN.md): scheduling, stability, progress, and workspace bounds.
+- [Radix experiment](RADIX.md): a stable integer variant with bounded page recycling, timings, and peak memory.
 
 ## Use through Thrust
 

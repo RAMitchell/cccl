@@ -1,0 +1,1 @@
+PASS 450 exact stable reference and guarded-range cases; invalid workers rejected

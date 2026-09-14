@@ -1,0 +1,6 @@
+========= COMPUTE-SANITIZER
+PASS stable reference, guards, and nondefault stream
+========= ERROR SUMMARY: 0 errors
+========= COMPUTE-SANITIZER
+PASS stable reference, guards, and nondefault stream
+========= ERROR SUMMARY: 0 errors

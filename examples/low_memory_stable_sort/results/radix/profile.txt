@@ -1,0 +1,2 @@
+Milliseconds, separate profiled run:
+init=0.008192 histogram=0.169984 pass_setup=0.01856 scatter=1.94547 materialize=0.59392
