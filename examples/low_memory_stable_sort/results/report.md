@@ -20,9 +20,9 @@ MB means 1,000,000 bytes. Peak memory is calculated as the input array plus meas
 
 ## Refinement versus the initial prototype
 
-The initial prototype is commit `a3df667d9`; its original nine-trial measurements and metadata are preserved in `original.csv` and `original-environment.json`. The table below compares those measurements with this implementation on the same GPU and CCCL version. These are separate benchmark runs, not interleaved original/refined trials.
+The initial prototype's nine-trial measurements and metadata are in `original.csv` and `original-environment.json`. The table below compares those measurements with this implementation on the same GPU and CCCL version. These are separate benchmark runs, not interleaved original/refined trials.
 
-The retained changes remove two full device-property queries, release single-tile inputs before allocating their output, bound the free queue by worker count, and share metadata between phases. Other transpose and register experiments did not give consistent enough gains to retain.
+The refinements remove two full device-property queries, release single-tile inputs before allocating their output, bound the free queue by worker count, and share metadata between phases.
 
 | Records | Record bytes | Initial ms | Refined ms | Runtime reduction | Initial scratch MB | Refined scratch MB |
 |---:|---:|---:|---:|---:|---:|---:|

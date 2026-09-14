@@ -1,2 +1,0 @@
-# Python's csv writer uses CRLF record separators; retain the historical bytes.
-*.csv whitespace=cr-at-eol

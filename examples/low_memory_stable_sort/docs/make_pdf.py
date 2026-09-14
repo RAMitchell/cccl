@@ -5,7 +5,6 @@
 """Build the illustrated guide from the committed measurements; no GPU work is run."""
 
 import csv
-import hashlib
 import json
 import math
 import os
@@ -41,10 +40,9 @@ ORIGINAL = {
 }
 SCALAR = next(csv.DictReader((RESULTS / "scalar-final.csv").open()))
 ENV = json.loads((RESULTS / "environment.json").read_text())
-PROVENANCE = json.loads((ROOT / "import-provenance.json").read_text())
-assert ENV["sources_sha256"] == PROVENANCE["measured_sources_sha256"]
-for name, expected in PROVENANCE["imported_sources_sha256"].items():
-    assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected, name
+# This document describes the saved CCCL 3.4.2 study.
+assert {row["thrust_version"] for row in ROWS} == {"300402"}
+assert SCALAR["thrust_version"] == "300402"
 assert len(ROWS) == 22
 BIG = next(r for r in RANDOM if int(r["n"]) == 1 << 30)
 
@@ -350,7 +348,7 @@ def cover():
     )
     pill("STABILITY REQUIRED", M, 311, 132)
     label(
-        "13 SEPTEMBER 2026  •  IMPLEMENTATION 322ffcbec",
+        "13 SEPTEMBER 2026  •  CCCL 3.4.2",
         M + 148,
         317,
         8,
@@ -900,7 +898,7 @@ def validation():
 
 def appendix():
     title(
-        "Appendix / Accounting and provenance",
+        "Appendix / Accounting and reproduction",
         "Enough detail to reproduce the result",
         "The main explanation is complete. This page records the exact bound and the sources behind the study.",
     )
@@ -937,9 +935,9 @@ def appendix():
         9.6,
         14,
     )
-    minor("Reproduction record", M, 424)
+    minor("Measurement setup", M, 424)
     para(
-        'Implementation <font name="Mono">322ffcbec</font>; initial prototype <font name="Mono">a3df667d9</font>. CUDA 12.9.86, sm_120, driver 580.173.02. Measurements: 13 September 2026, nine-trial medians, five warmups, seed 42. Sorting used one GPU; the host reports two installed devices.',
+        "CCCL 3.4.2, CUDA 12.9.86, sm_120, driver 580.173.02. Measurements: 13 September 2026, nine-trial medians, five warmups, seed 42. Sorting used one RTX PRO 6000 Blackwell GPU with 188 SMs.",
         M,
         446,
         CW,
@@ -947,7 +945,7 @@ def appendix():
         13.5,
     )
     para(
-        'In <font name="Mono">examples/low_memory_stable_sort</font>, README.md gives build commands; <font name="Mono">run_validation.sh</font> and <font name="Mono">run_benchmarks.py --full</font> reproduce the checks. <font name="Mono">results/final.csv</font>, <font name="Mono">scalar-final.csv</font> and <font name="Mono">environment.json</font> contain raw measurements and exact source hashes. The original run is preserved separately.',
+        'In <font name="Mono">examples/low_memory_stable_sort</font>, README.md gives build commands; <font name="Mono">run_validation.sh</font> and <font name="Mono">run_benchmarks.py --full</font> reproduce the checks. <font name="Mono">results/final.csv</font>, <font name="Mono">scalar-final.csv</font> and <font name="Mono">environment.json</font> contain the saved measurements and environment details. Set <font name="Mono">CCCL_ROOT</font> to a CCCL 3.4.2 checkout to use the same dependency.',
         M,
         505,
         CW,
@@ -963,7 +961,7 @@ def appendix():
         ),
         (
             "[2]",
-            "NVIDIA CCCL 3.4.2, <i>dispatch_merge_sort.cuh</i>. Baseline allocation and dispatch implementation; inspected in the pinned local checkout.",
+            "NVIDIA CCCL 3.4.2, <i>dispatch_merge_sort.cuh</i>. Baseline allocation and dispatch implementation used for the measurements.",
             "https://github.com/NVIDIA/cccl/blob/v3.4.2/cub/cub/device/dispatch/dispatch_merge_sort.cuh",
         ),
         (

@@ -6,6 +6,3 @@
 /results/development/
 /__pycache__/
 /results/summary.svg
-!/results/final.csv
-!/results/scalar-final.csv
-!/results/original.csv
