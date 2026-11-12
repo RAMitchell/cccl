@@ -99,5 +99,9 @@ TEST_HOST_DEVICE_FUNC TEST_CONSTEXPR_CXX20 bool test()
 int main(int, char**)
 {
   test();
+  NV_IF_TARGET(NV_IS_HOST, ({
+                 test_save_restore<cuda::std::philox_engine<unsigned char, 8, 2, 10, 0xD2, 0x9E>>();
+                 test_save_restore<cuda::std::philox_engine<unsigned char, 8, 4, 10, 0xD2, 0x9E, 0xCA, 0xBB>>();
+               }));
   return 0;
 }

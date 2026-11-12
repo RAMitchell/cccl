@@ -22,8 +22,10 @@
 
 #include <cuda/std/__host_stdlib/istream>
 #include <cuda/std/__host_stdlib/ostream>
+#include <cuda/std/__limits/numeric_limits.h>
 #include <cuda/std/__random/is_seed_sequence.h>
 #include <cuda/std/__random/is_valid.h>
+#include <cuda/std/__type_traits/common_type.h>
 #include <cuda/std/__type_traits/enable_if.h>
 #include <cuda/std/__type_traits/integral_constant.h>
 #include <cuda/std/climits>
@@ -326,11 +328,15 @@ public:
   operator<<(::std::basic_ostream<_CharT, _Traits>& __os, const linear_congruential_engine& __e)
   {
     using _Ostream                            = ::std::basic_ostream<_CharT, _Traits>;
+    using _StreamUInt                         = common_type_t<result_type, unsigned>;
     const typename _Ostream::fmtflags __flags = __os.flags();
+    const _CharT __fill                       = __os.fill();
     __os.flags(_Ostream::dec | _Ostream::left);
     __os.fill(__os.widen(' '));
+    __os << static_cast<_StreamUInt>(__e.__x_);
     __os.flags(__flags);
-    return __os << __e.__x_;
+    __os.fill(__fill);
+    return __os;
   }
   template <typename _CharT, typename _Traits>
   _CCCL_HOST_DEVICE_API friend ::std::basic_istream<_CharT, _Traits>&
@@ -339,11 +345,18 @@ public:
     using _Istream                            = ::std::basic_istream<_CharT, _Traits>;
     const typename _Istream::fmtflags __flags = __is.flags();
     __is.flags(_Istream::dec | _Istream::skipws);
-    _UIntType __t;
+    common_type_t<result_type, unsigned> __t;
     __is >> __t;
     if (!__is.fail())
     {
-      __e.__x_ = __t;
+      if (__t > numeric_limits<result_type>::max())
+      {
+        __is.setstate(_Istream::failbit);
+      }
+      else
+      {
+        __e.__x_ = static_cast<result_type>(__t);
+      }
     }
     __is.flags(__flags);
     return __is;

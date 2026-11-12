@@ -29,6 +29,7 @@
 #include <cuda/std/__limits/numeric_limits.h>
 #include <cuda/std/__random/is_seed_sequence.h>
 #include <cuda/std/__random/is_valid.h>
+#include <cuda/std/__type_traits/common_type.h>
 #include <cuda/std/__type_traits/make_nbit_int.h>
 #include <cuda/std/__utility/pair.h>
 #include <cuda/std/array>
@@ -336,6 +337,7 @@ public:
   {
     using ostream_type = ::std::basic_ostream<_CharT, _Traits>;
     using ios_base     = typename ostream_type::ios_base;
+    using _StreamUInt  = common_type_t<result_type, unsigned>;
 
     // save old flags & fill character
     const typename ios_base::fmtflags __flags = __os.flags();
@@ -347,7 +349,7 @@ public:
     // output counter array (__x_)
     for (size_t __i = 0; __i < word_count; ++__i)
     {
-      __os << __e.__x_[__i];
+      __os << static_cast<_StreamUInt>(__e.__x_[__i]);
       if (__i < word_count - 1)
       {
         __os << __os.widen(' ');
@@ -358,7 +360,7 @@ public:
     // output key array (__k_)
     for (size_t __i = 0; __i < word_count / 2; ++__i)
     {
-      __os << __e.__k_[__i];
+      __os << static_cast<_StreamUInt>(__e.__k_[__i]);
       if (__i < (word_count / 2) - 1)
       {
         __os << __os.widen(' ');
@@ -369,7 +371,7 @@ public:
     // output output buffer (__y_)
     for (size_t __i = 0; __i < word_count; ++__i)
     {
-      __os << __e.__y_[__i];
+      __os << static_cast<_StreamUInt>(__e.__y_[__i]);
       if (__i < word_count - 1)
       {
         __os << __os.widen(' ');
@@ -397,28 +399,47 @@ public:
   {
     using istream_type = ::std::basic_istream<_CharT, _Traits>;
     using ios_base     = typename istream_type::ios_base;
+    using _StreamUInt  = common_type_t<result_type, unsigned>;
 
     // save old flags
     const typename ios_base::fmtflags __flags = __is.flags();
 
-    __is.flags(ios_base::dec);
+    __is.flags(ios_base::dec | ios_base::skipws);
 
     // input counter array (__x_)
     for (size_t __i = 0; __i < word_count; ++__i)
     {
-      __is >> __e.__x_[__i];
+      _StreamUInt __value;
+      if (!(__is >> __value) || __value > numeric_limits<result_type>::max())
+      {
+        __is.setstate(ios_base::failbit);
+        break;
+      }
+      __e.__x_[__i] = static_cast<result_type>(__value);
     }
 
     // input key array (__k_)
     for (size_t __i = 0; __i < word_count / 2; ++__i)
     {
-      __is >> __e.__k_[__i];
+      _StreamUInt __value;
+      if (!(__is >> __value) || __value > numeric_limits<result_type>::max())
+      {
+        __is.setstate(ios_base::failbit);
+        break;
+      }
+      __e.__k_[__i] = static_cast<result_type>(__value);
     }
 
     // input output buffer (__y_)
     for (size_t __i = 0; __i < word_count; ++__i)
     {
-      __is >> __e.__y_[__i];
+      _StreamUInt __value;
+      if (!(__is >> __value) || __value > numeric_limits<result_type>::max())
+      {
+        __is.setstate(ios_base::failbit);
+        break;
+      }
+      __e.__y_[__i] = static_cast<result_type>(__value);
     }
 
     // input current position

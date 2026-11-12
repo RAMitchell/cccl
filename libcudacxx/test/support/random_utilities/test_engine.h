@@ -153,16 +153,40 @@ TEST_HOST_DEVICE_FUNC TEST_CONSTEXPR_CXX20 bool test_min_max()
 template <typename Engine>
 void test_save_restore()
 {
-  Engine e0;
-  e0.discard(10000);
-  std::stringstream ss;
-  ss << e0;
+  for (auto seed : {0, 10, 32, 42, 255})
+  {
+    // Exercise initial states, buffered positions, and an advanced counter.
+    for (auto discard : {0, 1, 2, 3, 4, 5, 6, 7, 8, 10001})
+    {
+      Engine e0(static_cast<typename Engine::result_type>(seed));
+      e0.discard(discard);
+      std::stringstream ss;
+      ss.flags(std::ios_base::hex | std::ios_base::showbase | std::ios_base::right);
+      ss.fill('#');
+      auto flags = ss.flags();
+      ss << e0;
+      assert(!ss.fail());
+      assert(ss.flags() == flags);
+      assert(ss.fill() == '#');
 
-  e0.discard(10000);
-  Engine e1;
-  ss >> e1;
-  e1.discard(10000);
-  assert(e0() == e1());
+      // State words must be decimal integers, including byte-sized result types.
+      for (auto ch : ss.str())
+      {
+        assert(ch == ' ' || (ch >= '0' && ch <= '9'));
+      }
+
+      Engine e1;
+      ss >> e1;
+      assert(!ss.fail());
+      assert(ss.flags() == flags);
+      assert(ss.fill() == '#');
+      assert(e0 == e1);
+      for (int i = 0; i < 17; ++i)
+      {
+        assert(e0() == e1());
+      }
+    }
+  }
 }
 #endif // _CCCL_HOSTED()
 

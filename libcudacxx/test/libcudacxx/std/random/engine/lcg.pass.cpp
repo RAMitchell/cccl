@@ -31,6 +31,7 @@ TEST_HOST_DEVICE_FUNC void test_p4037r1_small_uinttype()
   static_assert(E::multiplier == 5u);
   static_assert(E::increment == 1u);
   static_assert(E::modulus == 13u);
+  NV_IF_TARGET(NV_IS_HOST, ({ test_save_restore<E>(); }));
 }
 
 int main(int, char**)
